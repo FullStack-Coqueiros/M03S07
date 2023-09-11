@@ -227,3 +227,4 @@ Abrir o SQL Manager para acessar o SQL Server configurado da imagem
 
 
 TESTE AULA 1
+TESTE AULA Alessandra
