@@ -8,9 +8,12 @@ namespace FichaCadastroAPI.Model
 {
     public class FichaCadastroContextDB : DbContext
     {
-       public FichaCadastroContextDB(DbContextOptions options) : base(options)
-       {
-       }
+        public DbSet<FichaModel> FichaModels { get; set; }
+        public DbSet<DetalheModel> DetalheModels { get; set; }
+
+        public FichaCadastroContextDB(DbContextOptions options) : base(options)
+        {
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
