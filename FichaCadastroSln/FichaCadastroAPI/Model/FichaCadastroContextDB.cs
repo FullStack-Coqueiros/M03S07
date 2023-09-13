@@ -17,6 +17,18 @@ namespace FichaCadastroAPI.Model
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<DetalheModel>()
+                        .HasOne(h => h.FichaModel)
+                        .WithMany(w => w.DetalheModels);
+
+            modelBuilder.Entity<DetalheModel>()
+                        .Property(p => p.DataCadastro)
+                        .HasDefaultValueSql("GETDATE()");
+
+            modelBuilder.Entity<FichaModel>()
+                        .Property(p => p.DataCadastro)
+                        .HasDefaultValueSql("GETDATE()");            
+
             base.OnModelCreating(modelBuilder);
         }
 
