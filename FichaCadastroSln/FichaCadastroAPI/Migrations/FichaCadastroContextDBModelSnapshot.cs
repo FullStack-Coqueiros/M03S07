@@ -30,10 +30,18 @@ namespace FichaCadastroAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("DataCadastro")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
                     b.Property<string>("Feedback")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("VARCHAR");
+
+                    b.Property<int>("FichaId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Nota")
                         .HasColumnType("int");
@@ -42,6 +50,8 @@ namespace FichaCadastroAPI.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FichaId");
 
                     b.ToTable("Detalhe");
                 });
@@ -53,6 +63,11 @@ namespace FichaCadastroAPI.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DataCadastro")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<DateTime>("DataNascimento")
                         .HasColumnType("datetime2");
@@ -70,6 +85,22 @@ namespace FichaCadastroAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Ficha");
+                });
+
+            modelBuilder.Entity("FichaCadastroAPI.Model.DetalheModel", b =>
+                {
+                    b.HasOne("FichaCadastroAPI.Model.FichaModel", "Ficha")
+                        .WithMany("DetalheModels")
+                        .HasForeignKey("FichaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Ficha");
+                });
+
+            modelBuilder.Entity("FichaCadastroAPI.Model.FichaModel", b =>
+                {
+                    b.Navigation("DetalheModels");
                 });
 #pragma warning restore 612, 618
         }

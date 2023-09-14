@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using FichaCadastroAPI.Base;
+using FichaCadastroAPI.Enumerators;
 
 namespace FichaCadastroAPI.Model
 {
@@ -10,11 +11,11 @@ namespace FichaCadastroAPI.Model
         [Column(TypeName = "VARCHAR"), Required, StringLength(500)]
         public string Feedback { get; set; }
         [Required]
-        public int Nota { get; set; }
+        public NotasEnum Nota { get; set; }
         [Required]
         public bool Situacao { get; set; }
 
         [Required]
-        public FichaModel FichaModel { get; set; }
+        public FichaModel Ficha { get; set; }
     }
 }
