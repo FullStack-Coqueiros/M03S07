@@ -19,7 +19,9 @@ namespace FichaCadastroAPI.Model
         {
             modelBuilder.Entity<DetalheModel>()
                         .HasOne(h => h.Ficha)
-                        .WithMany(w => w.DetalheModels);
+                        .WithMany(w => w.DetalheModels)
+                        .Metadata
+                        .DeleteBehavior = DeleteBehavior.Restrict; 
 
             modelBuilder.Entity<DetalheModel>()
                         .Property(p => p.DataCadastro)
