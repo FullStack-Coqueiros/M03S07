@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace FichaCadastroAPI.Migrations
 {
     /// <inheritdoc />
@@ -47,7 +49,16 @@ namespace FichaCadastroAPI.Migrations
                         column: x => x.FichaId,
                         principalTable: "Ficha",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Ficha",
+                columns: new[] { "Id", "DataCadastro", "DataNascimento", "Email", "Nome" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2023, 9, 18, 19, 27, 15, 25, DateTimeKind.Local).AddTicks(3010), new DateTime(2023, 9, 18, 19, 27, 15, 25, DateTimeKind.Local).AddTicks(3020), "teste1@email.com.br", "teste umes" },
+                    { 2, new DateTime(2023, 9, 18, 19, 27, 15, 25, DateTimeKind.Local).AddTicks(3023), new DateTime(1993, 9, 18, 19, 27, 15, 25, DateTimeKind.Local).AddTicks(3023), "teste2@email.com.br", "teste dois" }
                 });
 
             migrationBuilder.CreateIndex(

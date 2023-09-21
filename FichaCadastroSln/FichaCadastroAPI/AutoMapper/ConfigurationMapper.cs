@@ -26,6 +26,8 @@ namespace FichaCadastroAPI.AutoMapper
 
             //Origem .... Destino
             CreateMap<FichaModel, FichaDetalhesReadDTO>()
+                .ForMember(destino => destino.ContatenacaoNomeEmail,
+                           origem => origem.MapFrom(dados => $"{dados.Nome} - {dados.Email}"))
                 .ForMember(destino => destino.Detalhes, origem => origem.MapFrom(dados => dados.DetalheModels));
             
             //Origem .... Destino

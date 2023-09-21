@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FichaCadastroAPI.Migrations
 {
     [DbContext(typeof(FichaCadastroContextDB))]
-    [Migration("20230914004436_InitialCreate")]
+    [Migration("20230918222715_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -88,6 +88,24 @@ namespace FichaCadastroAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Ficha");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DataCadastro = new DateTime(2023, 9, 18, 19, 27, 15, 25, DateTimeKind.Local).AddTicks(3010),
+                            DataNascimento = new DateTime(2023, 9, 18, 19, 27, 15, 25, DateTimeKind.Local).AddTicks(3020),
+                            Email = "teste1@email.com.br",
+                            Nome = "teste umes"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DataCadastro = new DateTime(2023, 9, 18, 19, 27, 15, 25, DateTimeKind.Local).AddTicks(3023),
+                            DataNascimento = new DateTime(1993, 9, 18, 19, 27, 15, 25, DateTimeKind.Local).AddTicks(3023),
+                            Email = "teste2@email.com.br",
+                            Nome = "teste dois"
+                        });
                 });
 
             modelBuilder.Entity("FichaCadastroAPI.Model.DetalheModel", b =>
@@ -95,7 +113,7 @@ namespace FichaCadastroAPI.Migrations
                     b.HasOne("FichaCadastroAPI.Model.FichaModel", "Ficha")
                         .WithMany("DetalheModels")
                         .HasForeignKey("FichaId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Ficha");

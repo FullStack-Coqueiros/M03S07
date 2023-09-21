@@ -1,5 +1,10 @@
+using FichaCadastroAPI.HealthCheck;
 using FichaCadastroAPI.Model;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +15,19 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-string connectionString = "Server=localhost;Database=FichaCadastro;Trusted_Connection=True;TrustServerCertificate=True;";
+
+var variavelAmbiente = builder.Environment.EnvironmentName;
+var diretorio = Directory.GetCurrentDirectory();
+
+builder.Configuration
+       .SetBasePath(diretorio)
+       .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+       .AddJsonFile($"appsettings.{variavelAmbiente}.json", optional: false, reloadOnChange: true);
+
+
+//string connectionString = "Server=localhost;Database=FichaCadastro;Trusted_Connection=True;TrustServerCertificate=True;";
+string connectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
+
 
 builder.Services
        .AddDbContext<FichaCadastroContextDB>(options => 
@@ -25,6 +42,12 @@ builder.Services.AddRouting(options =>
     options.LowercaseQueryStrings = true;
 });
 
+string nomeHealthCheckCustom = nameof(HealthCheckCustom);
+
+builder.Services
+       .AddHealthChecks()
+       .AddCheck<HealthCheckCustom>(nomeHealthCheckCustom);
+       //.AddDbContextCheck<FichaCadastroContextDB>();
 
 var app = builder.Build();
 
@@ -40,5 +63,10 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseHealthChecks("/api/healthcheck", new HealthCheckOptions() 
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
+});
 
 app.Run();
