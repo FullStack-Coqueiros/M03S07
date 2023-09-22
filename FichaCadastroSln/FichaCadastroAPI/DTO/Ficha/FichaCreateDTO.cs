@@ -10,5 +10,8 @@ namespace FichaCadastroAPI.DTO.Ficha
         public string NomeCompleto { get; set; }
         public string EmailInformado { get; set; }
         public DateTime DataDeNascimento { get; set; }
+
+        public override string ToString() 
+            => $"Nome Completo: {NomeCompleto} | Email-informado {EmailInformado}";
     }
 }

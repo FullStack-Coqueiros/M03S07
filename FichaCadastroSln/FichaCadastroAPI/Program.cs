@@ -15,6 +15,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services
+       .AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 
 var variavelAmbiente = builder.Environment.EnvironmentName;
 var diretorio = Directory.GetCurrentDirectory();
